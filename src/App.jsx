@@ -23,7 +23,6 @@ function App() {
         }
     ]);
     const [isTyping, setIsTyping] = useState(false);
-
     const handleSend = async (message) => {
         const newMessage = {
             message,
@@ -106,7 +105,7 @@ function App() {
 
                 <p>Microphone: {listening ? 'on' : 'off'} </p>
                 <button onClick={SpeechRecognition.startListening}>Start</button>
-                <button onClick={SpeechRecognition.stopListening}>Stopp</button>
+                <button onClick={SpeechRecognition.stopListening}>Stop</button>
                 <button onClick={resetTranscript}>Reset</button>
                 <p> {transcript}</p>
 
@@ -122,7 +121,7 @@ function App() {
                                 return <Message key={i} model={message} />
                             })}
                         </MessageList>
-                        <MessageInput placeholder="Type message here" onSend={handleSend} />
+                        <MessageInput placeholder="Type message here" onSend={handleSend} value={transcript} />
                     </ChatContainer>
                 </MainContainer>
             </div>
