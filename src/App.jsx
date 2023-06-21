@@ -5,6 +5,9 @@ import './App.css'
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { MainContainer, ChatContainer, MessageList, Message, MessageInput, TypingIndicator } from '@chatscope/chat-ui-kit-react';
 
+import SpeechRecognition , {useSpeechRecognition} from 'react-speech-recognition'
+
+
 const API_KEY = "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";
 // "Explain things like you would to a 10 year old learning how to code."
 const systemMessage = { //  Explain things like you're talking to a software professional with 5 years of experience.
@@ -85,9 +88,28 @@ function App() {
         });
     }
 
+    // Speech recognition module
+    const {
+        transcript,
+        listening,
+        resetTranscript,
+        browserSupportsSpeechRecognition
+    } = useSpeechRecognition()
+
+    if(!browserSupportsSpeechRecognition) {
+        return <span>Your Browser doesn't support Speech to Text</span>
+    }
+
     return (
         <div className="App">
             <div style={{ position:"relative", height: "800px", width: "700px"  }}>
+
+                <p>Microphone: {listening ? 'on' : 'off'} </p>
+                <button onClick={SpeechRecognition.startListening}>Start</button>
+                <button onClick={SpeechRecognition.stopListening}>Stopp</button>
+                <button onClick={resetTranscript}>Reset</button>
+                <p> {transcript}</p>
+
                 <MainContainer>
                     <ChatContainer>
                         <MessageList
@@ -95,7 +117,7 @@ function App() {
                             typingIndicator={isTyping ? <TypingIndicator content="ChatGPT is typing" /> : null}
                         >
                             {
-                                messages.map((message = "Hi", i) => {
+                                messages.map((message , i) => {
                                 console.log(message)
                                 return <Message key={i} model={message} />
                             })}
