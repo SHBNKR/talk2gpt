@@ -95,9 +95,15 @@ function App() {
         browserSupportsSpeechRecognition
     } = useSpeechRecognition()
 
+    // check if Browser supports SpeechRecognition
     if(!browserSupportsSpeechRecognition) {
         return <span>Your Browser doesn't support Speech to Text</span>
     }
+
+    const voiceCommands = {
+        send: ['send', 'submit', 'post']
+    };
+
 
     return (
         <div className="App">
@@ -105,7 +111,7 @@ function App() {
 
                 <p>Microphone: {listening ? 'on' : 'off'} </p>
                 <button onClick={SpeechRecognition.startListening}>Start</button>
-                <button onClick={SpeechRecognition.stopListening}>Stop</button>
+                {/*<button onClick={SpeechRecognition.stopListening}>Stop</button>*/}
                 <button onClick={resetTranscript}>Reset</button>
                 <p> {transcript}</p>
 
