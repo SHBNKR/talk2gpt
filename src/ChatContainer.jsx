@@ -58,6 +58,7 @@ function ChatComponent() {
             speak({text: lastMessage.message});
         }
 
+        resetTranscript();      //clear Input Message after message is getting submitted
     };
 
     useEffect(() => {
@@ -159,6 +160,7 @@ function ChatComponent() {
             <button onClick={stopListening}>Stop</button>
             <button onClick={resetTranscript}>Reset</button>
             <button onClick={()=> handleOnClick()}>Cancel</button>
+            {/*<button onClick={() => handleSend()}>Senden</button>*/}
 
             {/*<p> {transcript}</p>*/}
 
@@ -180,7 +182,11 @@ function ChatComponent() {
                                 }}/>
                             })}
                     </MessageList>
-                    <MessageInput placeholder="Type message here" onSend={handleSend} value={transcript || ''}/>
+                    <MessageInput placeholder="Type message here"
+                                  onSend={handleSend}
+                                  value={transcript || ''}
+                                  onSubmit={handleSend}
+                    />
                 </ChatContainer>
             </MainContainer>
         </div>
