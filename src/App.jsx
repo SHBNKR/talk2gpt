@@ -1,11 +1,10 @@
 // UI-Proyotyping mit JavaScript - Sinan Harkci - 271211
 
-import { useState } from 'react'
-import './App.css'
+import {useEffect, useState} from 'react';
+import './App.css';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import { MainContainer, ChatContainer, MessageList, Message, MessageInput, TypingIndicator } from '@chatscope/chat-ui-kit-react';
-
-import SpeechRecognition , {useSpeechRecognition} from 'react-speech-recognition'
+import SpeechRecognition , {useSpeechRecognition} from 'react-speech-recognition';
 
 
 const API_KEY = "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";
@@ -23,6 +22,8 @@ function App() {
         }
     ]);
     const [isTyping, setIsTyping] = useState(false);
+    const [isListening, setIsListening] = useState(false); // Variable zum Steuern des Spracherkennungsprozesses
+
     const handleSend = async (message) => {
         const newMessage = {
             message,
@@ -100,8 +101,22 @@ function App() {
         return <span>Your Browser doesn't support Speech to Text</span>
     }
 
-    const voiceCommands = {
-        send: ['send', 'submit', 'post']
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+        if (isListening) {
+            SpeechRecognition.startListening({ continuous: true });
+        } else {
+            SpeechRecognition.stopListening();
+        }
+    }, [isListening]);
+
+
+    const startListening = () => {
+        setIsListening(true);
+    };
+
+    const stopListening = () => {
+        setIsListening(false);
     };
 
 
@@ -109,9 +124,9 @@ function App() {
         <div className="App">
             <div style={{ position:"relative", height: "800px", width: "700px"  }}>
 
-                <p>Microphone: {listening ? 'on' : 'off'} </p>
-                <button onClick={SpeechRecognition.startListening}>Start</button>
-                {/*<button onClick={SpeechRecognition.stopListening}>Stop</button>*/}
+                <p>Microphone: {isListening ? 'on' : 'off'} </p>
+                <button onClick={startListening}>Start</button>
+                <button onClick={stopListening}>Stop</button>
                 <button onClick={resetTranscript}>Reset</button>
                 <p> {transcript}</p>
 
@@ -127,7 +142,7 @@ function App() {
                                 return <Message key={i} model={message} />
                             })}
                         </MessageList>
-                        <MessageInput placeholder="Type message here" onSend={handleSend} value={transcript} />
+                        <MessageInput placeholder="Type message here" onSend={handleSend} value={transcript || ''} />
                     </ChatContainer>
                 </MainContainer>
             </div>
