@@ -14,10 +14,16 @@ import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition'
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import {useSpeechSynthesis} from 'react-speech-kit';
 
+// Beispiel
 const systemMessage = {
     role: "system",
     content: "Explain things like you're talking to a software professional with 2 years of experience."
 };
+// Beispiel 2:
+/*const systemMessage = {
+    role: "system",
+    content: "Explain things like you're talking to a 6 years old ."
+};*/
 
 const API_KEY = "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";
 
@@ -61,9 +67,6 @@ function ChatComponent() {
     }, [isAssistantSpeaking]);
 
     async function processMessageToChatGPT(chatMessages) { // messages is an array of messages
-        // Format messages for chatGPT API
-        // API is expecting objects in format of { role: "user" or "assistant", "content": "message here"}
-        // So we need to reformat
 
         let apiMessages = chatMessages.map((messageObject) => {
             let role;
