@@ -1,9 +1,17 @@
 // ChatContainer.jsx
 
 import React, {useEffect, useState} from 'react';
-import { MainContainer, ChatContainer, MessageList, Message, MessageInput, TypingIndicator } from '@chatscope/chat-ui-kit-react';
-import SpeechRecognition , {useSpeechRecognition} from 'react-speech-recognition';
+import {
+    MainContainer,
+    ChatContainer,
+    MessageList,
+    Message,
+    MessageInput,
+    TypingIndicator
+} from '@chatscope/chat-ui-kit-react';
+import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
+import {useSpeechSynthesis} from 'react-speech-kit';
 
 const systemMessage = {
     role: "system",
@@ -13,6 +21,7 @@ const systemMessage = {
 const API_KEY = "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";
 
 function ChatComponent() {
+    const {speak} = useSpeechSynthesis();
     const [messages, setMessages] = useState([
         {
             message: "Hello, I'm ChatGPT! Ask me anything!",
@@ -22,6 +31,7 @@ function ChatComponent() {
     ]);
     const [isTyping, setIsTyping] = useState(false);
     const [isListening, setIsListening] = useState(false); // Variable zum Steuern des Spracherkennungsprozesses
+    const [isAssistantSpeaking, setIsAssistantSpeaking] = useState(false);
 
     const handleSend = async (message) => {
         const newMessage = {
@@ -33,11 +43,20 @@ function ChatComponent() {
         const newMessages = [...messages, newMessage];
 
         setMessages(newMessages);
-        // Initial system message to determine ChatGPT functionality
-        // How it responds, how it talks, etc.
         setIsTyping(false);
         await processMessageToChatGPT(newMessages);
+        const lastMessage = newMessages[newMessages.length - 1];
+        if (lastMessage.sender === "ChatGPT") {
+            setIsAssistantSpeaking(true);
+            speak({text: lastMessage.message});
+        }
     };
+
+    useEffect(() => {
+        if (!isAssistantSpeaking) {
+            setIsAssistantSpeaking(false);
+        }
+    }, [isAssistantSpeaking]);
 
     async function processMessageToChatGPT(chatMessages) { // messages is an array of messages
         // Format messages for chatGPT API
@@ -51,7 +70,7 @@ function ChatComponent() {
             } else {
                 role = "user";
             }
-            return { role: role, content: messageObject.message}
+            return {role: role, content: messageObject.message}
         });
 
 
@@ -95,7 +114,7 @@ function ChatComponent() {
     } = useSpeechRecognition()
 
     // check if Browser supports SpeechRecognition
-    if(!browserSupportsSpeechRecognition) {
+    if (!browserSupportsSpeechRecognition) {
         return <span>Your Browser doesn't support Speech to Text</span>
     }
 
@@ -109,40 +128,46 @@ function ChatComponent() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
         if (isListening) {
-            SpeechRecognition.startListening({ continuous: true });
+            SpeechRecognition.startListening({continuous: true});
         } else {
             SpeechRecognition.stopListening();
         }
     }, [isListening]);
 
-return (
+    return (
 
-    <div style={{ position:"relative", height: "800px", width: "700px"  }}>
+        <div style={{position: "relative", height: "800px", width: "700px"}}>
 
-        <p>Microphone: {isListening ? 'on' : 'off'} </p>
-        <button onClick={startListening}>Start</button>
-        <button onClick={stopListening}>Stop</button>
-        <button onClick={resetTranscript}>Reset</button>
-        <p> {transcript}</p>
+            <p>Microphone: {isListening ? 'on' : 'off'} </p>
+            <button onClick={startListening}>Start</button>
+            <button onClick={stopListening}>Stop</button>
+            <button onClick={resetTranscript}>Reset</button>
+            <p> {transcript}</p>
 
-    <MainContainer>
-    <ChatContainer>
-        <MessageList
-            scrollBehavior="smooth"
-            typingIndicator={isTyping ? <TypingIndicator content="ChatGPT is typing" /> : null}
-        >
-            {
-                messages.map((message , i) => {
-                    console.log(message)
-                    return <Message key={i} model={message} />
-                })}
-        </MessageList>
-        <MessageInput placeholder="Type message here" onSend={handleSend} value={transcript || ''} />
-    </ChatContainer>
-</MainContainer>
-    </div>
+            <MainContainer>
+                <ChatContainer>
+                    <MessageList
+                        scrollBehavior="smooth"
+                        typingIndicator={isTyping || isAssistantSpeaking ?
+                            <TypingIndicator content="ChatGPT is typing"/> : null}
+                    >
+                        {
+                            messages.map((message, i) => {
+                                console.log(message)
+                                return <Message key={i} model={message} onClick={() => {
+                                    if (message.sender === 'ChatGPT') {
+                                        setIsAssistantSpeaking(true);
+                                        speak({text: message.message});
+                                    }
+                                }}/>
+                            })}
+                    </MessageList>
+                    <MessageInput placeholder="Type message here" onSend={handleSend} value={transcript || ''}/>
+                </ChatContainer>
+            </MainContainer>
+        </div>
 
-);
+    );
 
 }
 
