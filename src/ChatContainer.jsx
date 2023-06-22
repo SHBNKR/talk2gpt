@@ -1,6 +1,7 @@
 // ChatContainer.jsx
 
 import React, {useEffect, useState} from 'react';
+import './App.css';
 import {
     MainContainer,
     ChatContainer,
@@ -21,7 +22,7 @@ const systemMessage = {
 const API_KEY = "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";
 
 function ChatComponent() {
-    const {speak} = useSpeechSynthesis();
+    const {speak, cancel} = useSpeechSynthesis();
     const [messages, setMessages] = useState([
         {
             message: "Hello, I'm ChatGPT! Ask me anything!",
@@ -33,7 +34,7 @@ function ChatComponent() {
     const [isListening, setIsListening] = useState(false); // Variable zum Steuern des Spracherkennungsprozesses
     const [isAssistantSpeaking, setIsAssistantSpeaking] = useState(false);
 
-    const handleSend = async (message) => {
+    const handleSend = async (message, e) => {
         const newMessage = {
             message,
             direction: 'outgoing',
@@ -50,6 +51,7 @@ function ChatComponent() {
             setIsAssistantSpeaking(true);
             speak({text: lastMessage.message});
         }
+
     };
 
     useEffect(() => {
@@ -103,6 +105,9 @@ function ChatComponent() {
                 sender: "ChatGPT"
             }]);
             setIsTyping(true);
+            setIsAssistantSpeaking(true);
+            speak({ text: data.choices[0].message.content });
+
         });
     }
 
@@ -134,15 +139,25 @@ function ChatComponent() {
         }
     }, [isListening]);
 
+    // cancel/reset the speech of GPT
+    const handleOnClick = () => {
+        setIsAssistantSpeaking(false);
+        cancel();
+    }
+
     return (
 
         <div style={{position: "relative", height: "800px", width: "700px"}}>
+
+            <h1> Talk 2 GPT </h1>
 
             <p>Microphone: {isListening ? 'on' : 'off'} </p>
             <button onClick={startListening}>Start</button>
             <button onClick={stopListening}>Stop</button>
             <button onClick={resetTranscript}>Reset</button>
-            <p> {transcript}</p>
+            <button onClick={()=> handleOnClick()}>Cancel</button>
+
+            {/*<p> {transcript}</p>*/}
 
             <MainContainer>
                 <ChatContainer>
