@@ -126,7 +126,6 @@ return (
         <p> {transcript}</p>
 
     <MainContainer>
-
     <ChatContainer>
         <MessageList
             scrollBehavior="smooth"
