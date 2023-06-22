@@ -1,6 +1,6 @@
 // ChatContainer.jsx
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './App.css';
 import {
     MainContainer,
@@ -8,7 +8,8 @@ import {
     MessageList,
     Message,
     MessageInput,
-    TypingIndicator
+    TypingIndicator,
+    Button, SendButton
 } from '@chatscope/chat-ui-kit-react';
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
@@ -67,6 +68,8 @@ function ChatComponent() {
         }
     }, [isAssistantSpeaking]);
 
+
+
     async function processMessageToChatGPT(chatMessages) { // messages is an array of messages
 
         let apiMessages = chatMessages.map((messageObject) => {
@@ -100,7 +103,6 @@ function ChatComponent() {
                 },
                 body: JSON.stringify(apiRequestBody)
             }).then((data) => {
-            console.log(data);
             return data.json();
         }).then((data) => {
             console.log(data);
@@ -111,7 +113,6 @@ function ChatComponent() {
             setIsTyping(true);
             setIsAssistantSpeaking(true);
             speak({ text: data.choices[0].message.content });
-
         });
     }
 
@@ -160,17 +161,17 @@ function ChatComponent() {
             <button onClick={stopListening}>Stop</button>
             <button onClick={resetTranscript}>Reset</button>
             <button onClick={()=> handleOnClick()}>Cancel</button>
-            {/*<button onClick={() => handleSend()}>Senden</button>*/}
+            <Button border primary >Senden</Button>
 
             {/*<p> {transcript}</p>*/}
 
             <MainContainer>
                 <ChatContainer>
+
                     <MessageList
                         scrollBehavior="smooth"
-                        typingIndicator={isTyping || isAssistantSpeaking ?
-                            <TypingIndicator content="ChatGPT is typing"/> : null}
-                    >
+                        typingIndicator={isTyping ?
+                            <TypingIndicator content="ChatGPT is typing"/> : null} >
                         {
                             messages.map((message, i) => {
                                 console.log(message)
