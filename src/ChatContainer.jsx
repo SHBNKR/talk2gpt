@@ -9,7 +9,7 @@ import {
     Message,
     MessageInput,
     TypingIndicator,
-    Button, SendButton
+    Button
 } from '@chatscope/chat-ui-kit-react';
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
@@ -120,7 +120,7 @@ function ChatComponent() {
     const {
         transcript,
         resetTranscript,
-        browserSupportsSpeechRecognition
+        browserSupportsSpeechRecognition,
     } = useSpeechRecognition()
 
     // check if Browser supports SpeechRecognition
@@ -150,9 +150,16 @@ function ChatComponent() {
         cancel();
     }
 
+    function handleMessageSpeech(message) {
+        if (message.sender === 'ChatGPT') {
+            setIsAssistantSpeaking(true);
+            speak({text: message.message});
+        }
+    }
+
     return (
 
-        <div style={{position: "relative", height: "800px", width: "700px"}}>
+        <div style={{ margin: "0 auto", width: "800px", height: "800px"}}>
 
             <h1> Talk 2 GPT </h1>
 
@@ -175,12 +182,9 @@ function ChatComponent() {
                         {
                             messages.map((message, i) => {
                                 console.log(message)
-                                return <Message key={i} model={message} onClick={() => {
-                                    if (message.sender === 'ChatGPT') {
-                                        setIsAssistantSpeaking(true);
-                                        speak({text: message.message});
-                                    }
-                                }}/>
+                                return <Message key={i}
+                                                model={message}
+                                                onClick={() => handleMessageSpeech(message)} />
                             })}
                     </MessageList>
                     <MessageInput placeholder="Type message here"
