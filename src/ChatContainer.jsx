@@ -1,6 +1,6 @@
 // ChatContainer.jsx
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {
     MainContainer,
@@ -210,7 +210,8 @@ function ChatComponent() {
                         <button onClick={stopListening}>Stop</button>
                         <button onClick={resetTranscript}>Reset</button>
                         <button onClick={()=> cancelGPTSpeech()}>Cancel</button>
-                        <button onClick={handleSend} border primary >Senden</button>
+                            <button> .</button>
+                        <button onClick={handleSend}   >Senden</button>
                             <VoiceCallButton />
                             <InfoButton  />
                         </ConversationHeader.Actions>
