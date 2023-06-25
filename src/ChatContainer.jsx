@@ -2,6 +2,7 @@
 
 import React, {useEffect, useState} from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
     MainContainer,
     ChatContainer,
@@ -14,12 +15,13 @@ import {
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import {useSpeechSynthesis} from 'react-speech-kit';
-import gpt_logo from './gpt_logo.jpg';
-import gpt_logo_black from './chatgpt.png';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import  { } from 'react-bootstrap';
-import mic_mute from './mic_mute.png';
-import mic from './mic.png';
+
+
+// import of assets
+import gpt_logo from './assets/gpt_logo.jpg';
+import gpt_logo_black from './assets/chatgpt.png';
+import mic_mute from './assets/mic_mute.png';
+import mic from './assets/mic.png';
 
 
 // Beispiel
@@ -202,6 +204,7 @@ function ChatComponent() {
             <MainContainer>
 
                 <ChatContainer>
+
                     <ConversationHeader>
                         <Avatar src={gpt_logo_black} name="GPT" />
                         <ConversationHeader.Content userName="GPT" info="just talk to me ... " />
@@ -241,7 +244,6 @@ function ChatComponent() {
                 </ChatContainer>
             </MainContainer>
         </div>
-
     );
 
 }
