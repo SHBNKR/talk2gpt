@@ -9,12 +9,18 @@ import {
     Message,
     MessageInput,
     TypingIndicator,
-    Button, Avatar
+    Button, Avatar, ConversationHeader, VoiceCallButton, InfoButton
 } from '@chatscope/chat-ui-kit-react';
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import {useSpeechSynthesis} from 'react-speech-kit';
 import gpt_logo from './gpt_logo.jpg';
+import gpt_logo_black from './chatgpt.png';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import  { } from 'react-bootstrap';
+import mic_mute from './mic_mute.png';
+import mic from './mic.png';
+
 
 // Beispiel
 const systemMessage = {
@@ -33,7 +39,7 @@ function ChatComponent() {
     const {speak, cancel} = useSpeechSynthesis();
     const [messages, setMessages] = useState([
         {
-            message: "Hello, I'm ChatGPT! Ask me anything!",
+            message: "Hello, I'm Talk2GPT! Ask me anything!",
             sentTime: "just now",
             sender: "ChatGPT"
         }
@@ -189,18 +195,26 @@ function ChatComponent() {
 
         <div style={{ margin: "0 auto", width: "800px", height: "800px"}}>
 
-            <p>Microphone: {isListening ? 'on' : 'off'} </p>
-            <button onClick={startListening}>Start</button>
-            <button onClick={stopListening}>Stop</button>
-            <button onClick={resetTranscript}>Reset</button>
-            <button onClick={()=> cancelGPTSpeech()}>Cancel</button>
-            <button onClick={handleSend} border primary >Senden</button>
+            <p>Microphone: {isListening ? <img src={mic} width={'30px'} height={'30px'} alt={"."} /> : <img src={mic_mute} width={'30px'} height={'30px'} alt={"."} />}  </p>
 
-            {/*<p> {transcript}</p>*/}
 
+            <i className="bi bi-mic-mute-fill"></i>
             <MainContainer>
 
                 <ChatContainer>
+                    <ConversationHeader>
+                        <Avatar src={gpt_logo_black} name="GPT" />
+                        <ConversationHeader.Content userName="GPT" info="just talk to me ... " />
+                        <ConversationHeader.Actions>
+                        <button onClick={startListening}>Start</button>
+                        <button onClick={stopListening}>Stop</button>
+                        <button onClick={resetTranscript}>Reset</button>
+                        <button onClick={()=> cancelGPTSpeech()}>Cancel</button>
+                        <button onClick={handleSend} border primary >Senden</button>
+                            <VoiceCallButton />
+                            <InfoButton  />
+                        </ConversationHeader.Actions>
+                    </ConversationHeader>
 
                     <MessageList
                         scrollBehavior="smooth"
