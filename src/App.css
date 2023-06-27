@@ -37,20 +37,9 @@
   }
 }
 
-.textAreaStyle {
-  width: 500px;
-  border-radius: 12px;
-  height: 163px;
-  border-width:10px;
-  border-color: cadetblue;
-  margin-top: 25px;
-  margin-bottom: 49px;
-}
-
-.buttonStyle {
-  padding: 10px;
-  border-radius: 11px;
-  font-weight: bold;
-  border-width: 4px;
-  margin-left: -334px;
+.button-group {
+  display: grid;
+  gridTemplateColumns: 'repeat(3, 1fr)';
+  gridTemplateRows: 'repeat(2, 1fr)';
+  gridGap: '10px';
 }

@@ -25,6 +25,7 @@ import gpt_logo from './assets/gpt_logo.jpg';
 import gpt_logo_black from './assets/chatgpt.png';
 import mic_mute from './assets/mic_mute.png';
 import mic from './assets/mic.png';
+import userIcon from './assets/user_icon.png'
 
 
 const API_KEY = "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";
@@ -132,6 +133,7 @@ function ChatComponent() {
     };
     const stopListening = () => {
         setIsListening(false);
+        SpeechRecognition.stopListening();
     };
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
@@ -151,18 +153,19 @@ function ChatComponent() {
 
             <MainContainer>
                 <ChatContainer>
-                    <SpeechRecognitionComponent />
                     <ConversationHeader>
                         <Avatar src={gpt_logo_black} name="GPT"/>
                         <ConversationHeader.Content userName="GPT" info="just talk to me ... "/>
                         <ConversationHeader.Actions>
-                            <button onClick={startListening}>Start</button>
-                            <button onClick={stopListening}>Stop</button>
-                            <button onClick={resetTranscript}>Reset</button>
-                            <button onClick={() => cancel() }>Cancel</button>       {/*             use directly cancel()-function from library*/}
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
+                                <button onClick={startListening}>Start</button>
+                                <button onClick={stopListening}>Stop</button>
+                                <button onClick={resetTranscript}>Reset</button>
                             <button> .</button>
-                            <button onClick={handleSend}>Senden</button>
-                            <InfoButton/>
+                            <button onClick={() => cancel() }>Cancel</button>       {/*             use directly cancel()-function from library*/}
+                            <button  onClick={handleSend}>Senden</button>
+                            </div>
+                            <InfoButton />
                         </ConversationHeader.Actions>
                     </ConversationHeader>
 
@@ -175,6 +178,8 @@ function ChatComponent() {
                                 console.log(message)
                                 return <Message key={i}
                                                 model={message}>
+                                    {message.sender === "user" && (
+                                    <Avatar src={userIcon} name={"user"} status="available"/>)}
                                     {message.sender === "ChatGPT" && (
                                         <Avatar src={gpt_logo} name={"ChatGPT"} status="available"/>)}
                                 </Message>
