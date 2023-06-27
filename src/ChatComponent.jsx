@@ -57,10 +57,8 @@ function ChatComponent() {
 
     const handleSend = async () => {
 
-        const newMessage = transcript;
-
         const newMessageObject = {
-            message: newMessage,
+            message: transcript,            // give transcript from speech-module as message by Send
             direction: 'outgoing',
             sender: 'user',
         };
@@ -79,11 +77,11 @@ function ChatComponent() {
         resetTranscript(); // Leere den erkannten Text
     };
 
-    useEffect(() => {
+  /*  useEffect(() => {
         if (!isAssistantSpeaking) {
             setIsAssistantSpeaking(false);
         }
-    }, [isAssistantSpeaking]);
+    }, [isAssistantSpeaking]);*/
 
 
     async function processMessageToChatGPT(chatMessages) { // messages is an array of messages
@@ -164,19 +162,6 @@ function ChatComponent() {
 
     // Sprachausgabe
 
-    // cancel/reset the speech of GPT
-    const cancelGPTSpeech = () => {
-        setIsAssistantSpeaking(false);
-        cancel();
-    }
-
-    function handleMessageSpeech(message) {
-        if (message.sender === 'ChatGPT') {
-            setIsAssistantSpeaking(true);
-            speak({text: message.message});
-        }
-    }
-
     return (
 
         <div style={{margin: "0 auto", width: "700px", height: "650px"}}>
@@ -195,10 +180,9 @@ function ChatComponent() {
                             <button onClick={startListening}>Start</button>
                             <button onClick={stopListening}>Stop</button>
                             <button onClick={resetTranscript}>Reset</button>
-                            <button onClick={() => cancelGPTSpeech()}>Cancel</button>
+                            <button onClick={() => cancel() }>Cancel</button>                   {/* use directly cancel()-function from library      */}
                             <button> .</button>
                             <button onClick={handleSend}>Senden</button>
-                            <VoiceCallButton/>
                             <InfoButton/>
                         </ConversationHeader.Actions>
                     </ConversationHeader>
@@ -212,7 +196,7 @@ function ChatComponent() {
                             messages.map((message, i) => {
                                 console.log(message)
                                 return <Message key={i}
-                                                model={message} >
+                                                model={message}>
                                     {message.sender === "ChatGPT" && (
                                         <Avatar src={gpt_logo} name={"ChatGPT"} status="available"/>)}
                                 </Message>
@@ -227,8 +211,8 @@ function ChatComponent() {
             </MainContainer>
 
             {
-          //  <SpeechRecognitionComponent />
-}
+                //  <SpeechRecognitionComponent />
+            }
 
         </div>
     );
