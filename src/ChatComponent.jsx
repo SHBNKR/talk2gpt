@@ -19,6 +19,8 @@ import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition'
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import {useSpeechSynthesis} from 'react-speech-kit';
 
+import SpeechRecognitionComponent from "./components/SpeechRecognitionComponent";
+
 
 // import of assets
 import gpt_logo from './assets/gpt_logo.jpg';
@@ -172,7 +174,6 @@ function ChatComponent() {
         if (message.sender === 'ChatGPT') {
             setIsAssistantSpeaking(true);
             speak({text: message.message});
-            startListening();
         }
     }
 
@@ -211,8 +212,7 @@ function ChatComponent() {
                             messages.map((message, i) => {
                                 console.log(message)
                                 return <Message key={i}
-                                                model={message}
-                                                onClick={() => handleMessageSpeech(message)}>
+                                                model={message} >
                                     {message.sender === "ChatGPT" && (
                                         <Avatar src={gpt_logo} name={"ChatGPT"} status="available"/>)}
                                 </Message>
@@ -226,9 +226,9 @@ function ChatComponent() {
                 </ChatContainer>
             </MainContainer>
 
-            {/*
-            <SpeechRecognitionComponent onResult={handleSend} />
-*/}
+            {
+          //  <SpeechRecognitionComponent />
+}
 
         </div>
     );
