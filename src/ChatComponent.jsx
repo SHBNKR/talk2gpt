@@ -132,7 +132,6 @@ function ChatComponent() {
     };
     const stopListening = () => {
         setIsListening(false);
-        SpeechRecognition.stopListening();
     };
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
