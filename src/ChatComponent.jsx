@@ -163,16 +163,13 @@ function ChatComponent() {
     // Sprachausgabe
 
     return (
-
-        <div style={{margin: "0 auto", width: "700px", height: "650px"}}>
+        <div style={{ marginTop: "25px", margin: "0 auto", width: "700px", height: "650px"}}>
 
             <p>Microphone: {isListening ? <img src={mic} width={'30px'} height={'30px'} alt={"."}/> :
                 <img src={mic_mute} width={'30px'} height={'30px'} alt={"."}/>}  </p>
 
             <MainContainer>
-
                 <ChatContainer>
-
                     <ConversationHeader>
                         <Avatar src={gpt_logo_black} name="GPT"/>
                         <ConversationHeader.Content userName="GPT" info="just talk to me ... "/>
@@ -191,7 +188,6 @@ function ChatComponent() {
                         scrollBehavior="smooth"
                         typingIndicator={isTyping ?
                             <TypingIndicator content="ChatGPT is typing"/> : null}>
-
                         {
                             messages.map((message, i) => {
                                 console.log(message)
