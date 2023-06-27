@@ -13,7 +13,6 @@ import {
     MessageInput,
     MessageList,
     TypingIndicator,
-    VoiceCallButton
 } from '@chatscope/chat-ui-kit-react';
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
@@ -29,7 +28,8 @@ import mic_mute from './assets/mic_mute.png';
 import mic from './assets/mic.png';
 
 
-// Beispiel
+const API_KEY = "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";
+
 const systemMessage = {
     role: "system",
     content: "Explain things like you're talking to a software professional with 2 years of experience."
@@ -39,8 +39,6 @@ const systemMessage = {
     role: "system",
     content: "Explain things like you're talking to a 6 years old ."
 };*/
-
-const API_KEY = "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";
 
 function ChatComponent() {
     const {speak, cancel} = useSpeechSynthesis();
@@ -53,7 +51,7 @@ function ChatComponent() {
     ]);
     const [isTyping, setIsTyping] = useState(false);
     const [isListening, setIsListening] = useState(false); // Variable zum Steuern des Spracherkennungsprozesses
-    const [isAssistantSpeaking, setIsAssistantSpeaking] = useState(false);
+    const [setIsAssistantSpeaking] = useState(false);
 
     const handleSend = async () => {
 
@@ -77,13 +75,6 @@ function ChatComponent() {
         resetTranscript(); // Leere den erkannten Text
     };
 
-  /*  useEffect(() => {
-        if (!isAssistantSpeaking) {
-            setIsAssistantSpeaking(false);
-        }
-    }, [isAssistantSpeaking]);*/
-
-
     async function processMessageToChatGPT(chatMessages) { // messages is an array of messages
 
         let apiMessages = chatMessages.map((messageObject) => {
@@ -95,7 +86,6 @@ function ChatComponent() {
             }
             return {role: role, content: messageObject.message}
         });
-
 
         // Get the request body set up with the model we plan to use
         // and the messages which we formatted above. We add a system message in the front to'
@@ -146,7 +136,6 @@ function ChatComponent() {
     const startListening = () => {
         setIsListening(true);
     };
-
     const stopListening = () => {
         setIsListening(false);
         SpeechRecognition.stopListening();
@@ -168,8 +157,10 @@ function ChatComponent() {
             <p>Microphone: {isListening ? <img src={mic} width={'30px'} height={'30px'} alt={"."}/> :
                 <img src={mic_mute} width={'30px'} height={'30px'} alt={"."}/>}  </p>
 
+
             <MainContainer>
                 <ChatContainer>
+                    <SpeechRecognitionComponent />
                     <ConversationHeader>
                         <Avatar src={gpt_logo_black} name="GPT"/>
                         <ConversationHeader.Content userName="GPT" info="just talk to me ... "/>
@@ -177,7 +168,7 @@ function ChatComponent() {
                             <button onClick={startListening}>Start</button>
                             <button onClick={stopListening}>Stop</button>
                             <button onClick={resetTranscript}>Reset</button>
-                            <button onClick={() => cancel() }>Cancel</button>                   {/* use directly cancel()-function from library      */}
+                            <button onClick={() => cancel() }>Cancel</button>       {/*             use directly cancel()-function from library*/}
                             <button> .</button>
                             <button onClick={handleSend}>Senden</button>
                             <InfoButton/>
@@ -204,11 +195,8 @@ function ChatComponent() {
                                   onSubmit={handleSend}
                     />
                 </ChatContainer>
-            </MainContainer>
 
-            {
-                //  <SpeechRecognitionComponent />
-            }
+            </MainContainer>
 
         </div>
     );
