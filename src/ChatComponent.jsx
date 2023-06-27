@@ -4,13 +4,16 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
-    MainContainer,
+    Avatar,
     ChatContainer,
-    MessageList,
+    ConversationHeader,
+    InfoButton,
+    MainContainer,
     Message,
     MessageInput,
+    MessageList,
     TypingIndicator,
-    Button, Avatar, ConversationHeader, VoiceCallButton, InfoButton
+    VoiceCallButton
 } from '@chatscope/chat-ui-kit-react';
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
@@ -51,9 +54,8 @@ function ChatComponent() {
     const [isAssistantSpeaking, setIsAssistantSpeaking] = useState(false);
 
     const handleSend = async () => {
-        // ... (vorhandener Code)
 
-        const newMessage = transcript; // Verwende den erkannten Text als Nachricht
+        const newMessage = transcript;
 
         const newMessageObject = {
             message: newMessage,
@@ -69,40 +71,17 @@ function ChatComponent() {
         const lastMessage = newMessages[newMessages.length - 1];
         if (lastMessage.sender === 'ChatGPT') {
             setIsAssistantSpeaking(true);
-            speak({ text: lastMessage.message });
+            speak({text: lastMessage.message});
         }
-
+        stopListening();
         resetTranscript(); // Leere den erkannten Text
     };
 
-
-/*    const handleSend = async (message, e) => {
-        const newMessage = {
-            message,
-            direction: 'outgoing',
-            sender: "user"
-        };
-
-        const newMessages = [...messages, newMessage];
-
-        setMessages(newMessages);
-        setIsTyping(false);
-        await processMessageToChatGPT(newMessages);
-        const lastMessage = newMessages[newMessages.length - 1];
-        if (lastMessage.sender === "ChatGPT") {
-            setIsAssistantSpeaking(true);
-            speak({text: lastMessage.message});
-        }
-
-        resetTranscript();      //clear Input Message after message is getting submitted
-    };*/
-
-    /*useEffect(() => {
+    useEffect(() => {
         if (!isAssistantSpeaking) {
             setIsAssistantSpeaking(false);
         }
     }, [isAssistantSpeaking]);
-*/
 
 
     async function processMessageToChatGPT(chatMessages) { // messages is an array of messages
@@ -147,7 +126,7 @@ function ChatComponent() {
             }]);
             setIsTyping(true);
             setIsAssistantSpeaking(true);
-            speak({ text: data.choices[0].message.content });
+            speak({text: data.choices[0].message.content});
         });
     }
 
@@ -170,6 +149,7 @@ function ChatComponent() {
 
     const stopListening = () => {
         setIsListening(false);
+        SpeechRecognition.stopListening();
     };
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
@@ -179,6 +159,8 @@ function ChatComponent() {
             SpeechRecognition.stopListening();
         }
     }, [isListening]);
+
+    // Sprachausgabe
 
     // cancel/reset the speech of GPT
     const cancelGPTSpeech = () => {
@@ -190,40 +172,40 @@ function ChatComponent() {
         if (message.sender === 'ChatGPT') {
             setIsAssistantSpeaking(true);
             speak({text: message.message});
+            startListening();
         }
     }
 
     return (
 
-        <div style={{ margin: "0 auto", width: "800px", height: "800px"}}>
+        <div style={{margin: "0 auto", width: "700px", height: "650px"}}>
 
-            <p>Microphone: {isListening ? <img src={mic} width={'30px'} height={'30px'} alt={"."} /> : <img src={mic_mute} width={'30px'} height={'30px'} alt={"."} />}  </p>
+            <p>Microphone: {isListening ? <img src={mic} width={'30px'} height={'30px'} alt={"."}/> :
+                <img src={mic_mute} width={'30px'} height={'30px'} alt={"."}/>}  </p>
 
-
-            <i className="bi bi-mic-mute-fill"></i>
             <MainContainer>
 
                 <ChatContainer>
 
                     <ConversationHeader>
-                        <Avatar src={gpt_logo_black} name="GPT" />
-                        <ConversationHeader.Content userName="GPT" info="just talk to me ... " />
+                        <Avatar src={gpt_logo_black} name="GPT"/>
+                        <ConversationHeader.Content userName="GPT" info="just talk to me ... "/>
                         <ConversationHeader.Actions>
-                        <button onClick={startListening}>Start</button>
-                        <button onClick={stopListening}>Stop</button>
-                        <button onClick={resetTranscript}>Reset</button>
-                        <button onClick={()=> cancelGPTSpeech()}>Cancel</button>
+                            <button onClick={startListening}>Start</button>
+                            <button onClick={stopListening}>Stop</button>
+                            <button onClick={resetTranscript}>Reset</button>
+                            <button onClick={() => cancelGPTSpeech()}>Cancel</button>
                             <button> .</button>
-                        <button onClick={handleSend}   >Senden</button>
-                            <VoiceCallButton />
-                            <InfoButton  />
+                            <button onClick={handleSend}>Senden</button>
+                            <VoiceCallButton/>
+                            <InfoButton/>
                         </ConversationHeader.Actions>
                     </ConversationHeader>
 
                     <MessageList
                         scrollBehavior="smooth"
                         typingIndicator={isTyping ?
-                            <TypingIndicator content="ChatGPT is typing"/> : null} >
+                            <TypingIndicator content="ChatGPT is typing"/> : null}>
 
                         {
                             messages.map((message, i) => {
@@ -231,8 +213,8 @@ function ChatComponent() {
                                 return <Message key={i}
                                                 model={message}
                                                 onClick={() => handleMessageSpeech(message)}>
-                                    { message.sender === "ChatGPT" && (
-                                        <Avatar src={gpt_logo} name={"ChatGPT"} status="available" /> ) }
+                                    {message.sender === "ChatGPT" && (
+                                        <Avatar src={gpt_logo} name={"ChatGPT"} status="available"/>)}
                                 </Message>
                             })}
                     </MessageList>
@@ -243,6 +225,11 @@ function ChatComponent() {
                     />
                 </ChatContainer>
             </MainContainer>
+
+            {/*
+            <SpeechRecognitionComponent onResult={handleSend} />
+*/}
+
         </div>
     );
 
