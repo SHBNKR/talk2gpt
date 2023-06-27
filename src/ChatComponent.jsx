@@ -1,5 +1,4 @@
 // ChatContainer.jsx
-
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -51,16 +50,13 @@ function ChatComponent() {
     ]);
     const [isTyping, setIsTyping] = useState(false);
     const [isListening, setIsListening] = useState(false); // Variable zum Steuern des Spracherkennungsprozesses
-    const [setIsAssistantSpeaking] = useState(false);
 
     const handleSend = async () => {
-
         const newMessageObject = {
             message: transcript,            // give transcript from speech-module as message by Send
             direction: 'outgoing',
             sender: 'user',
         };
-
         const newMessages = [...messages, newMessageObject];
 
         setMessages(newMessages);
@@ -68,7 +64,6 @@ function ChatComponent() {
         await processMessageToChatGPT(newMessages);
         const lastMessage = newMessages[newMessages.length - 1];
         if (lastMessage.sender === 'ChatGPT') {
-            setIsAssistantSpeaking(true);
             speak({text: lastMessage.message});
         }
         stopListening();
@@ -115,7 +110,6 @@ function ChatComponent() {
                 sender: "ChatGPT"
             }]);
             setIsTyping(true);
-            setIsAssistantSpeaking(true);
             speak({text: data.choices[0].message.content});
         });
     }
@@ -149,14 +143,12 @@ function ChatComponent() {
         }
     }, [isListening]);
 
-    // Sprachausgabe
 
     return (
         <div style={{ marginTop: "25px", margin: "0 auto", width: "700px", height: "650px"}}>
 
             <p>Microphone: {isListening ? <img src={mic} width={'30px'} height={'30px'} alt={"."}/> :
                 <img src={mic_mute} width={'30px'} height={'30px'} alt={"."}/>}  </p>
-
 
             <MainContainer>
                 <ChatContainer>
@@ -195,7 +187,6 @@ function ChatComponent() {
                                   onSubmit={handleSend}
                     />
                 </ChatContainer>
-
             </MainContainer>
 
         </div>
