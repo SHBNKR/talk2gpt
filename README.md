@@ -24,7 +24,7 @@ ChatGPT gewinnt immer weiter an Beliebtheit. Doch diese Technologie soll nun wei
 
 ### Klassendiagramm:
 
-![Class_Diagram](https://github.com/SHBNKR/talk2gpt/assets/44865671/3cc96947-91b1-4805-8c3f-25a473d14a80)
+![Class_Diagram](https://github.com/SHBNKR/talk2gpt/assets/Class_Diagram.png)
 
 
 ## Relevanz von React.js
