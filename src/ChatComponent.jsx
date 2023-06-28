@@ -1,23 +1,12 @@
 // ChatContainer.jsx
 import React, {useEffect, useState} from 'react';
-import './App.css';
-import {
-    Avatar,
-    ChatContainer,
-    ConversationHeader,
-    InfoButton,
-    MainContainer,
-    Message,
-    MessageInput,
-    MessageList,
-    TypingIndicator,
-} from '@chatscope/chat-ui-kit-react';
+import { Avatar, ChatContainer, ConversationHeader, InfoButton, MainContainer, Message, MessageInput, MessageList, TypingIndicator,}
+    from '@chatscope/chat-ui-kit-react';
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import {useSpeechSynthesis} from 'react-speech-kit';
 
 import SpeechRecognitionComponent from "./components/SpeechRecognitionComponent";
-
 
 // import of assets
 import gpt_logo from './assets/gpt_logo.jpg';
@@ -26,8 +15,8 @@ import mic_mute from './assets/mic_mute.png';
 import mic from './assets/mic.png';
 import userIcon from './assets/user_icon.png'
 
-
-const API_KEY = "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";
+//API_Key from OpenAI-Website
+const API_KEY = "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";
 
 const systemMessage = {
     role: "system",
@@ -40,7 +29,7 @@ const systemMessage = {
 };*/
 
 function ChatComponent() {
-    const {speak, cancel} = useSpeechSynthesis();
+    const {speak, cancel} = useSpeechSynthesis();           //speak-module from speech-kit-library
     const [messages, setMessages] = useState([
         {
             message: "Hello, I'm Talk2GPT! Ask me anything!",
@@ -66,12 +55,11 @@ function ChatComponent() {
         if (lastMessage.sender === 'ChatGPT') {
             speak({text: lastMessage.message});
         }
-        stopListening();
-        resetTranscript(); // Leere den erkannten Text
+        stopListening();             // Mikrofon mute after send Message
+        resetTranscript();          // Leere den erkannten Text --> MessageInput
     };
 
     async function processMessageToChatGPT(chatMessages) { // messages is an array of messages
-
         let apiMessages = chatMessages.map((messageObject) => {
             let role;
             if (messageObject.sender === "ChatGPT") {
@@ -104,12 +92,11 @@ function ChatComponent() {
             }).then((data) => {
             return data.json();
         }).then((data) => {
-            console.log(data);
             setMessages([...chatMessages, {
                 message: data.choices[0].message.content,
                 sender: "ChatGPT"
             }]);
-            setIsTyping(true);
+            setIsTyping(true);  // ???
             speak({text: data.choices[0].message.content});
         });
     }
@@ -132,7 +119,7 @@ function ChatComponent() {
     };
     const stopListening = () => {
         setIsListening(false);
-        SpeechRecognition.stopListening();
+        SpeechRecognition.stopListening();      //mute microphone after send
     };
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
@@ -143,12 +130,9 @@ function ChatComponent() {
         }
     }, [isListening]);
 
-
     return (
-        <div style={{ marginTop: "25px", margin: "0 auto", width: "600px", height: "550px"}}>
-
-            <p>Microphone: {isListening ? <img src={mic} width={'30px'} height={'30px'} alt={"."}/> :
-                <img src={mic_mute} width={'30px'} height={'30px'} alt={"."}/>}  </p>
+        <div style={{marginTop: "25px", margin: "0 auto", width: "600px", height: "550px"}}>
+            <p>Microphone: {isListening ? <img src={mic} className={"avatar"} alt={"."}/> : <img src={mic_mute} className={"avatar"} alt={"."}/>}  </p>
 
             <MainContainer>
                 <ChatContainer>
@@ -156,45 +140,34 @@ function ChatComponent() {
                         <Avatar src={gpt_logo_black} name="GPT"/>
                         <ConversationHeader.Content userName="GPT" info="just talk to me ... "/>
                         <ConversationHeader.Actions>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr' }}>
+                            <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}>
                                 <button onClick={startListening}>Start</button>
                                 <button onClick={stopListening}>Stop</button>
                                 <button onClick={resetTranscript}>Reset</button>
-                            <button> .</button>
-                            <button onClick={() => cancel() }>Cancel</button>       {/*             use directly cancel()-function from library*/}
-                            <button  onClick={handleSend}>Senden</button>
+                                <button> .</button>
+                                <button onClick={() => cancel()}>Cancel</button>        {/*  use directly cancel()-function from speech-kit-library*/}
+                                <button onClick={handleSend}>Senden</button>
                             </div>
-                            <InfoButton />
+                            <InfoButton/>
                         </ConversationHeader.Actions>
                     </ConversationHeader>
-
                     <MessageList
                         scrollBehavior="smooth"
                         typingIndicator={isTyping ?
                             <TypingIndicator content="ChatGPT is typing"/> : null}>
-                        {
-                            messages.map((message, i) => {
-                                console.log(message)
-                                return <Message key={i}
-                                                model={message}>
-                                    {message.sender === "user" && (
-                                    <Avatar src={userIcon} name={"user"} status="available"/>)}
-                                    {message.sender === "ChatGPT" && (
-                                        <Avatar src={gpt_logo} name={"ChatGPT"} status="available"/>)}
-                                </Message>
+                        {   messages.map((message, i) => {
+                                return <Message key={i} model={message} >
+                                            {message.sender === "user" && ( <Avatar src={userIcon} name={"user"} status="available"/>)}
+                                            {message.sender === "ChatGPT" && (<Avatar src={gpt_logo} name={"ChatGPT"} status="available"/>)}
+                                        </Message>
                             })}
                     </MessageList>
-                    <MessageInput placeholder="Type message here"
-                                  onSend={handleSend}
-                                  value={transcript || ''}
-                                  onSubmit={handleSend}
+                    <MessageInput placeholder="Type message here" onSend={handleSend} value={transcript || ''} onSubmit={handleSend}
                     />
                 </ChatContainer>
             </MainContainer>
-
         </div>
     );
-
 }
 
 export default ChatComponent;

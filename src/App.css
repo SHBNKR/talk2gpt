@@ -41,3 +41,8 @@
   display: grid;
   gridTemplateColumns: '1fr 1fr 1fr';
 }
+
+.avatar {
+  width: 30px;
+  height: 30px;
+}
