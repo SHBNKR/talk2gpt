@@ -1,5 +1,10 @@
 # UI-Prototyping mit JavaScript SoSe 2023: Talk2GPT        29.06.2023
 
+### Information:
+
+Dieses Projekt nutzt die OpenAI-API. Der folgende Code funktioniert NUR mir einer selbst generierten API_KEY von OpenAI. --> Da dass Projekt veröffentlicht wurde, wurde der API_KEY im Code deaktiviert.
+Unter https://platform.openai.com/overview ist nach der Registrierung/Anmeldung im Personal Bereich der API_KEY Bereich vorzufinden
+
 ## Use Case:
 
 ChatGPT gewinnt immer weiter an Beliebtheit. Doch diese Technologie soll nun weiterentwickelt werden. Da ebenso smarte Kopfhörer inzwischen sehr weit revolutioniert sind, soll die Nutzung von ChatGPT sprachgebunden möglich werden. Um einen ersten Eindruck zu erhalten, soll ein Prototyp entwickelt werden. Dabei soll die Eingabe über ein Mikrofon aufgenommen und über einen Button versendet werden können. Wichtig ist, dass nach der Eingabe das Mikrofon automatisch stummgeschalten wird um die Sprachausgabe nicht als Input zu verwerten. Des weiteren soll für lange und fehlgeschlagene Antworten eine Möglichkeit existieren die Sprachausgabe zu unterbrechen.
