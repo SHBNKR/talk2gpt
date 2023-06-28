@@ -46,3 +46,10 @@
   width: 30px;
   height: 30px;
 }
+
+.mainComponent {
+  marginTop: "25px";
+  margin: 0 auto;
+  width: 600px;
+  height: 550px;
+}

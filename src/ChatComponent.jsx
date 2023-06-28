@@ -5,9 +5,7 @@ import { Avatar, ChatContainer, ConversationHeader, InfoButton, MainContainer, M
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import {useSpeechSynthesis} from 'react-speech-kit';
-
-import SpeechRecognitionComponent from "./components/SpeechRecognitionComponent";
-
+import SpeechRecognitionComponent from "./components/SpeechRecognitionComponent";       // unused Component include Start & Stop Microphone
 // import of assets
 import gpt_logo from './assets/gpt_logo.jpg';
 import gpt_logo_black from './assets/chatgpt.png';
@@ -16,7 +14,7 @@ import mic from './assets/mic.png';
 import userIcon from './assets/user_icon.png'
 
 //API_Key from OpenAI-Website
-const API_KEY = "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";
+const API_KEY = "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";
 
 const systemMessage = {
     role: "system",
@@ -30,7 +28,7 @@ const systemMessage = {
 
 function ChatComponent() {
     const {speak, cancel} = useSpeechSynthesis();           //speak-module from speech-kit-library
-    const [messages, setMessages] = useState([
+    const [messages, setMessages] = useState([          // current message
         {
             message: "Hello, I'm Talk2GPT! Ask me anything!",
             sentTime: "just now",
@@ -51,12 +49,8 @@ function ChatComponent() {
         setMessages(newMessages);
         setIsTyping(false);
         await processMessageToChatGPT(newMessages);
-        const lastMessage = newMessages[newMessages.length - 1];
-        if (lastMessage.sender === 'ChatGPT') {
-            speak({text: lastMessage.message});
-        }
-        stopListening();             // Mikrofon mute after send Message
-        resetTranscript();          // Leere den erkannten Text --> MessageInput
+        stopListening();             // mute microphone after send Message
+        resetTranscript();          // clear MessageInput after send
     };
 
     async function processMessageToChatGPT(chatMessages) { // messages is an array of messages
@@ -76,7 +70,7 @@ function ChatComponent() {
         const apiRequestBody = {
             "model": "gpt-3.5-turbo",
             "messages": [
-                systemMessage,  // The system message DEFINES the logic of our chatGPT
+                systemMessage,  // The system message DEFINES the logic of our chatGPT --> 6 year or sw-engineer
                 ...apiMessages // The messages from our chat with ChatGPT
             ]
         }
@@ -90,7 +84,7 @@ function ChatComponent() {
                 },
                 body: JSON.stringify(apiRequestBody)
             }).then((data) => {
-            return data.json();
+            return data.json();             // Response as JSON
         }).then((data) => {
             setMessages([...chatMessages, {
                 message: data.choices[0].message.content,
@@ -112,7 +106,6 @@ function ChatComponent() {
     if (!browserSupportsSpeechRecognition) {
         return <span>Your Browser doesn't support Speech to Text</span>
     }
-
     // Start & Stop Microphone
     const startListening = () => {
         setIsListening(true);
@@ -131,7 +124,7 @@ function ChatComponent() {
     }, [isListening]);
 
     return (
-        <div style={{marginTop: "25px", margin: "0 auto", width: "600px", height: "550px"}}>
+        <div className={"mainComponent"} >
             <p>Microphone: {isListening ? <img src={mic} className={"avatar"} alt={"."}/> : <img src={mic_mute} className={"avatar"} alt={"."}/>}  </p>
 
             <MainContainer>
@@ -144,7 +137,7 @@ function ChatComponent() {
                                 <button onClick={startListening}>Start</button>
                                 <button onClick={stopListening}>Stop</button>
                                 <button onClick={resetTranscript}>Reset</button>
-                                <button> .</button>
+                                <button>.</button>
                                 <button onClick={() => cancel()}>Cancel</button>        {/*  use directly cancel()-function from speech-kit-library*/}
                                 <button onClick={handleSend}>Senden</button>
                             </div>
