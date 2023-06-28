@@ -4,6 +4,8 @@ import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import './App.css';
 import ChatComponent from "./ChatComponent.jsx";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
 

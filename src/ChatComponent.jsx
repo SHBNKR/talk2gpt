@@ -1,7 +1,6 @@
 // ChatContainer.jsx
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import {
     Avatar,
     ChatContainer,
@@ -146,7 +145,7 @@ function ChatComponent() {
 
 
     return (
-        <div style={{ marginTop: "25px", margin: "0 auto", width: "700px", height: "650px"}}>
+        <div style={{ marginTop: "25px", margin: "0 auto", width: "600px", height: "550px"}}>
 
             <p>Microphone: {isListening ? <img src={mic} width={'30px'} height={'30px'} alt={"."}/> :
                 <img src={mic_mute} width={'30px'} height={'30px'} alt={"."}/>}  </p>

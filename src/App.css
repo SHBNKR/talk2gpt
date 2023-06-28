@@ -39,7 +39,5 @@
 
 .button-group {
   display: grid;
-  gridTemplateColumns: 'repeat(3, 1fr)';
-  gridTemplateRows: 'repeat(2, 1fr)';
-  gridGap: '10px';
+  gridTemplateColumns: '1fr 1fr 1fr';
 }
