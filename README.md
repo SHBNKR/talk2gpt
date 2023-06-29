@@ -1,9 +1,17 @@
 # UI-Prototyping mit JavaScript SoSe 2023: Talk2GPT        29.06.2023
 
-### Information:
+
+### Installation & Start der Anwendung:
+
+git clone https://github.com/SHBNKR/talk2gpt.git <br>
+npm install <br>
+npm start <br>
+
+#### Information:
 
 Dieses Projekt nutzt die OpenAI-API. Der folgende Code funktioniert NUR mir einer selbst generierten API_KEY von OpenAI. --> Da dass Projekt veröffentlicht wurde, wurde der API_KEY im Code deaktiviert.
-Unter https://platform.openai.com/overview ist nach der Registrierung/Anmeldung im Personal Bereich der API_KEY Bereich vorzufinden
+Unter https://platform.openai.com/overview ist nach der Registrierung/Anmeldung im Personal Bereich der API_KEY Bereich vorzufinden. <br>
+Anleitung: https://www.youtube.com/watch?v=nafDyRsVnXU&ab_channel=TutorialsHub
 
 ## Use Case:
 
@@ -20,11 +28,11 @@ ChatGPT gewinnt immer weiter an Beliebtheit. Doch diese Technologie soll nun wei
 
 ### Mockup:
 
-![image](https://github.com/SHBNKR/talk2gpt/assets/44865671/f316b33b-7738-4b2e-99b1-724ad008514a)
+<img width="587" alt="Mockup" src="https://github.com/SHBNKR/talk2gpt/assets/44865671/269f9bb8-76d5-4b1a-8d84-a95679873c48">
 
 ### Klassendiagramm:
 
-![Class_Diagram](https://github.com/SHBNKR/talk2gpt/assets/44865671/3cc96947-91b1-4805-8c3f-25a473d14a80)
+![Class_Diagram](https://github.com/SHBNKR/talk2gpt/assets/44865671/8fe62738-3d43-4c7c-9c82-d21d53e6b603)
 
 
 ## Relevanz von React.js
