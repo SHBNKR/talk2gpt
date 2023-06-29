@@ -20,11 +20,11 @@ ChatGPT gewinnt immer weiter an Beliebtheit. Doch diese Technologie soll nun wei
 
 ### Mockup:
 
-![image](https://github.com/SHBNKR/talk2gpt/assets/44865671/f316b33b-7738-4b2e-99b1-724ad008514a)
+<img width="587" alt="Mockup" src="https://github.com/SHBNKR/talk2gpt/assets/44865671/269f9bb8-76d5-4b1a-8d84-a95679873c48">
 
 ### Klassendiagramm:
 
-![Class_Diagram]([https://github.com/SHBNKR/talk2gpt/src/assets/Class_Diagram.png](https://github.com/SHBNKR/talk2gpt/tree/main/src/assets))
+![Class_Diagram](https://github.com/SHBNKR/talk2gpt/assets/44865671/8fe62738-3d43-4c7c-9c82-d21d53e6b603)
 
 
 ## Relevanz von React.js
