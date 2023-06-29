@@ -10,7 +10,8 @@ npm start <br>
 #### Information:
 
 Dieses Projekt nutzt die OpenAI-API. Der folgende Code funktioniert NUR mir einer selbst generierten API_KEY von OpenAI. --> Da dass Projekt veröffentlicht wurde, wurde der API_KEY im Code deaktiviert.
-Unter https://platform.openai.com/overview ist nach der Registrierung/Anmeldung im Personal Bereich der API_KEY Bereich vorzufinden
+Unter https://platform.openai.com/overview ist nach der Registrierung/Anmeldung im Personal Bereich der API_KEY Bereich vorzufinden. <br>
+Anleitung: https://www.youtube.com/watch?v=nafDyRsVnXU&ab_channel=TutorialsHub
 
 ## Use Case:
 
