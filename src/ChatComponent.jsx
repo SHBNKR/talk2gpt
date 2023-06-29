@@ -35,7 +35,7 @@ function ChatComponent() {
             sender: "ChatGPT"
         }
     ]);
-    const [ setIsTyping] = useState(false);
+    const [isTyping, setIsTyping] = useState(false);
     const [isListening, setIsListening] = useState(false); // Variable zum Steuern des Spracherkennungsprozesses
 
     const handleSend = async () => {
