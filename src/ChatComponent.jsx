@@ -1,17 +1,17 @@
 // ChatContainer.jsx
 import React, {useEffect, useState} from 'react';
-import { Avatar, ChatContainer, ConversationHeader, InfoButton, MainContainer, Message, MessageInput, MessageList, TypingIndicator,}
+import { Avatar, ChatContainer, ConversationHeader, InfoButton, MainContainer, Message, MessageInput, MessageList}
     from '@chatscope/chat-ui-kit-react';
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import {useSpeechSynthesis} from 'react-speech-kit';
-import SpeechRecognitionComponent from "./components/SpeechRecognitionComponent";       // unused Component include Start & Stop Microphone
+// import SpeechRecognitionComponent from "./components/SpeechRecognitionComponent";       // unused Component include Start & Stop Microphone
 // import of assets
 import gpt_logo from './assets/gpt_logo.jpg';
 import gpt_logo_black from './assets/chatgpt.png';
 import mic_mute from './assets/mic_mute.png';
 import mic from './assets/mic.png';
-import userIcon from './assets/user_icon.png'
+import userIcon from './assets/user_icon.png';
 
 //API_Key from OpenAI-Website
 const API_KEY = "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";
@@ -35,7 +35,7 @@ function ChatComponent() {
             sender: "ChatGPT"
         }
     ]);
-    const [isTyping, setIsTyping] = useState(false);
+    const [ setIsTyping] = useState(false);
     const [isListening, setIsListening] = useState(false); // Variable zum Steuern des Spracherkennungsprozesses
 
     const handleSend = async () => {
@@ -125,7 +125,7 @@ function ChatComponent() {
 
     return (
         <div className={"mainComponent"} >
-            <p>Microphone: {isListening ? <img src={mic} className={"avatar"} alt={"."}/> : <img src={mic_mute} className={"avatar"} alt={"."}/>}  </p>
+            <p> Microphone: {isListening ? <img src={mic} className={"avatar"} alt={"."}/> : <img src={mic_mute} className={"avatar"} alt={"."}/>}  </p>
 
             <MainContainer>
                 <ChatContainer>
@@ -145,9 +145,7 @@ function ChatComponent() {
                         </ConversationHeader.Actions>
                     </ConversationHeader>
                     <MessageList
-                        scrollBehavior="smooth"
-                        typingIndicator={isTyping ?
-                            <TypingIndicator content="ChatGPT is typing"/> : null}>
+                        scrollBehavior="smooth" >
                         {   messages.map((message, i) => {
                                 return <Message key={i} model={message} >
                                             {message.sender === "user" && ( <Avatar src={userIcon} name={"user"} status="available"/>)}
