@@ -90,8 +90,8 @@ function ChatComponent() {
                 message: data.choices[0].message.content,
                 sender: "ChatGPT"
             }]);
-            setIsTyping(true);  // ???
-            speak({text: data.choices[0].message.content});
+            setIsTyping(true);
+            speak({text: data.choices[0].message.content});     // text as speech output
         });
     }
 
@@ -115,7 +115,7 @@ function ChatComponent() {
         SpeechRecognition.stopListening();      //mute microphone after send
     };
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
+    useEffect(() => {               // control isListening while rendering
         if (isListening) {
             SpeechRecognition.startListening({continuous: true});
         } else {
