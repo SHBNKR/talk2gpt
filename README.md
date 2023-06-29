@@ -1,6 +1,13 @@
 # UI-Prototyping mit JavaScript SoSe 2023: Talk2GPT        29.06.2023
 
-### Information:
+
+### Installation & Start der Anwendung:
+
+git clone https://github.com/SHBNKR/talk2gpt.git <br>
+npm install <br>
+npm start <br>
+
+#### Information:
 
 Dieses Projekt nutzt die OpenAI-API. Der folgende Code funktioniert NUR mir einer selbst generierten API_KEY von OpenAI. --> Da dass Projekt veröffentlicht wurde, wurde der API_KEY im Code deaktiviert.
 Unter https://platform.openai.com/overview ist nach der Registrierung/Anmeldung im Personal Bereich der API_KEY Bereich vorzufinden
