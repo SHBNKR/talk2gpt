@@ -1,4 +1,4 @@
-# Talk2GPT        29.06.2023
+# Talk2GPT      
 
 
 ### Installation & Start der Anwendung:
