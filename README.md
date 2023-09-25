@@ -1,4 +1,4 @@
-# UI-Prototyping mit JavaScript SoSe 2023: Talk2GPT        29.06.2023
+# Talk2GPT        29.06.2023
 
 
 ### Installation & Start der Anwendung:
@@ -43,15 +43,10 @@ ChatGPT gewinnt immer weiter an Beliebtheit. Doch diese Technologie soll nun wei
 
 * React.js bietet eine breite Palette an Drittanbieter-Bibliotheken und Komponenten, welches die Entwicklung erleichtern kann. Für die Integration der Spracherkennung und -ausgabe konnten bereits vorhandene Bibliotheken wie SpeechRecognition genutzt werden. Die Integration solcher Bibliotheken in das Projekt erfolgt sehr einfach.
 
-## Herausforderungen & Gelerntes
+## Herausforderungen
 
 Die Komponentenerstellung stellte eine Herausforderung dar, da der Code für Spracheingabe sehr gering war (25 LOC), welches ebenso als separate Komponente implementiert werden konnte, dadurch jedoch für separate Funktionalitäten der resetButton und die parallele Eingabe in das MessageInput-Feld wieder in der ChatKomponente mehr Code entstand als die Auslagerung einbrachte. Aus diesem Grund wurde die Komponente auskommentiert.
 
-Desweiteren wurde mir erneut bewusst, wie angenehm das Programmieren mit React ist und wie vorteilhaft die Nutzung bereits implementierter Bibliotheken ist.
-
-## Fazit
-
-Talk2GPT sowie das Modul UI-Prototyping mit JavaScript war ein sehr schönes Modul, um das Projekt auf die Beine zu stellen und dabei die verwendete Technologie zu hinterfragen und hinter die Kulissen dieser zu blicken.
 
 
 
